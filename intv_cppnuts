@@ -1,1 +1,180 @@
+### lec 1 ### Structural Padding & Packing In C & C++ ###
+# https://www.youtube.com/watch?v=QSuBwGmFQqA&list=PLk6CEY9XxSIDy8qVHZV-Nf-r9f2BkRZ6p&index=1 #
+
+
+// Question: What is structural padding and packing in C&C++?
+// Answer : It is a way to speed up cpu optimization.
+
+#include <iostream>
+using namespace std;
+
+//#pragma pack(1)
+
+// size - 12
+struct Base{
+  char a;
+  char b;
+  int i;
+  char c; 
+};
+
+int main(){
+  cout << sizeof(Base) << endl;
+}
+
+// size - 8
+struct Base{
+  char a;
+  char b;
+  char c;
+  int i;  
+};
+
+// 1 word is 4 Byte in 32 bit processor
+// 1 word is 8 Byte in 32 bit processor
+
+// os running process diagram
+
+// ------------------------ CASE 1 ------------------------
+struct Base{
+  char a;
+  char b;
+  int i; 
+};
+
+// |a|b|-|-|i|i|i|i|
+//  0 1 2 3 4 5 6 7 
+// ------------------------ CASE 2 ------------------------
+struct Base{
+  char a;
+  int p; 
+  char b;
+};
+
+// |a|-|-|-|p|p|p|p|b|-|-|-|
+//  0 1 2 3 4 5 6 7 8 9 ..11
+
+// how data gets memory slots
+
+// 1 Byte ==> can be stored at multiple pf 1 memory slot
+// 2 Byte ==> can be stored at multiple pf 2 memory slot
+// 4 Byte ==> can be stored at multiple pf 4 memory slot
+// 8 Byte ==> can be stored at multiple pf 8 memory slot
+
+// size - 4
+struct Base{
+  char a;
+  short i; 
+};
+//a-ii
+//0123
+
+### lec 2 ### How Compilation Works Internally In C And C++? ###
+# https://www.youtube.com/watch?v=wTEjdFgcRIg&list=PLk6CEY9XxSIDy8qVHZV-Nf-r9f2BkRZ6p&index=2 #
+
+#include<iostream>
+using namespace std
+#define ADD(x,y) x+y
+int main(){
+  cout << "I Love C++" << endl;
+  cout << ADD(x+y);
+  return 0;
+}
+
+//---------------------------------------------------Diagram 1---------------------------------------------------
+[Source Code] ---> Compiler ---> [Object code] --*
+                                                  |
+[Source Code] ---> Compiler ---> [Object code] --*-----> Linker --> [Executable] --> Loader (part of os)
+                                                  |                                    |
+[Source Code] ---> Compiler ---> [Object code] --*                                     |     
+                                                  |                                    |
+                                  [Library file]--*                          [Running executable in memory]          
+
+
+
+//---------------------------------------------------Diagram 2---------------------------------------------------
+                                                Editor or IDE (write source code)
+                                                    |  
+                                                    |  (.cpp, .h) Source code, header files
+                                                    >
+                                                Preprocessor
+                                                    |  
+                                                    |  (*.i) Included files, replaced sysmbols
+                                                    >
+                                                Compiler
+                                                    |  
+                                                    |  (*.s) assembly code
+                                                    >                                
+                                                Assembler
+                                                    |  
+                                                    |  (*.o) oblect code
+                                                    >
+         Static libraries(.lib. .a)-------------> Linker
+                                                    |  
+                                                    |  (.exe)
+                                                    >
+          dynamic libraries(.dll. .so)-------------> Loader
+                                                    |  
+                                                    |
+                                                    >
+                                                Operating System
+
+// linux command
+c++ file.cpp -save-temps
+
+
+
+### lec 3 ### How delete[] Knows How Much To Deallocate In C++? ###
+# https://www.youtube.com/watch?v=p2z7SJ5MWV8&list=PLk6CEY9XxSIDy8qVHZV-Nf-r9f2BkRZ6p&index=3 #
+
+// how delete[] know how many oblects to delete?
+// ans: 1 over allocation 2 associative array
+
+#include<iostream>
+
+int const n = 10;
+
+class Base{
+public:
+  int b_var;
+}
+
+// tmp 0 1 2 3 4  5 - 43
+// p 4 - 43
+
+int main() {
+  Base *bp = new Base[n];
+  // char* tmp = (char*) operator new[] (WORDSIZE + n * sizeof(Base));
+  // Base* p = (Base*) (tmp + WORDSIZE);
+  // *(size_t*)tmp = n;
+  // for (i=0; i<n; ++i)
+  // new(p+i) Base()
+  delete[] bp;
+  // size_t n = * (size_t*) ((char*)p - WORDSIZE);
+  // while (n-- != 0);
+  // (p + n)->~Base();
+  // operator delete[] ((char*)p - WORDSIZE);
+  return 1;
+}
+
+int main() {
+  Base *bp = new Base[n];
+  // Base* bp = (Base*) operator new[] (n * sizeof(Base));
+  // size_t i;
+  // for (i=0; i<n; ++i)
+  //     new(p+i) Base()
+  // associationArray.inser(bp, n);
+  delete[] bp;
+  // size_t n = associationArray.lookup(bp);
+  // while (n-- != 0);
+  //   (bp + n)->~Fred();
+  // operator delete[] (bp);
+  return 1;
+}
+
+
+
+
+
+
 
