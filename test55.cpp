@@ -1,3 +1,4 @@
+// Why Size Of Empty class OR struct Is One In C++?
 #include <iostream>
 using namespace std;
 
