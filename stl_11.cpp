@@ -2,7 +2,7 @@ yt - https://www.youtube.com/watch?v=g38FEPWBcTA&list=PLk6CEY9XxSIA-xo3HRYC3M0Ai
 git - https://github.com/cppnuts-yt/CppNuts/blob/master/C%2B%2B%20Programming/STL/Sequence%20Containers/11%20forward_list.cpp
 // TOPIC: forward_list In STL
 
-// 1. This is single linked list what we know from C prgramming language.
+// 1. This is single linked list what we know from C prgramming language .
 // 2. Why forward_list why not single_list ?
 // 3. We should use this class instead of traditional single linked list because
 //    a. Well tested
