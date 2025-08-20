@@ -1,7 +1,7 @@
 ########### set 1 ###########
 gfg - https://www.geeksforgeeks.org/cpp/output-of-c-program-set-1/
 
-### (1) ###
+### (1_1.1) ###
 class Test
 {
   static int i;
@@ -13,7 +13,7 @@ int Test::i;
 ----> static data members do not contribute in size of an object. So 'i' is not considered in size of Test. 
       Also, all functions (static and non-static both) do not contribute in size.
 
-### (2) ###
+### (2_1.2) ###
 class Base1 {  Base1() }
 class Base2 {  Base2() }
 
@@ -99,7 +99,7 @@ r.print();
      if there is multilevel inheritance, then function is linearly searched up in the 
         inheritance hierarchy until a matching function is found.
 
-### (5_3.2) ###
+### (6_3.2) ###
 class Base
 {
 public:
@@ -125,7 +125,7 @@ delete pBase;
      Because of this difference in behavior, 
      it is recommended that object's virtual function is not invoked while it is being constructed or destroyed.
 ########### set 4 ###########
-### (6_4.1) ###
+### (7_4.1) ###
 
 int x = 10;
 void fun()
@@ -138,7 +138,8 @@ void fun()
 }
 fun();
 ---> If Scope Resolution Operator is placed before a variable name then the global variable is referenced.
-### (6_4.2) ###
+
+### (8_4.2) ###
 class Point {
   private:
       int x,y;
@@ -155,7 +156,7 @@ Point t1, *t2;                -> "Constructor called"
 
 ---> only one object is constructed here. t2 is just a pointer variable, not an object. 
 
-### (6_4.3) ###
+### (9_4.3) ###
 /// copy constructor ///
 class Point {
   public:
@@ -179,5 +180,55 @@ Point::Point(const Point &t) { }              // Copy Constructor
   Point t3 = *t1;          // Copy Constructor call
   Point t4;                // Normal Constructor call
   t4 = t3;                 // Assignment operator call
+
+########### set 5 ###########
+### (10_5.1) ###
+class Test {  Test(int v)  }
+
+Test::Test(int v) {  value = v; }
+
+Test t[100];     - Compiler error
+
+---> The class Test has one user defined constructor "Test(int v)" that expects one argument. 
+     It doesn't have a constructor without any argument as the compiler doesn't create the default constructor 
+     if user defines a constructor
+
+class Test {  Test(int v = 0)  }    ---> now its work
+### (11_5.2) ###
+int &fun() {
+    static int a = 10;
+    return a;
+}
+
+int &y = fun();
+y = y +30;
+cout<<fun();
+
+---> a is static, it is created once and persists throughout the program's lifetime.
+     function returns a reference to a.
+     y becomes an alias (another name) for a.
+
+### (12_5.3) ###
+
+class Test { Test(); };
+
+Test::Test()  {  }
+
+Test t1();
+
+
+---> "Test t1();" is not a constructor call.
+      Compiler considers this line as declaration of function t1 that doesn't receive any parameter and returns object of type Test.
+
+
+
+
+
+
+
+
+
+
+
 
 
