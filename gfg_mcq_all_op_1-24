@@ -1,1 +1,24 @@
+########### set 1 ###########
+gfg - https://www.geeksforgeeks.org/cpp/output-of-c-program-set-1/
 
+### (1) ###
+class Test
+{
+  static int i;
+  int j;
+};
+
+int Test::i;
+
+----> static data members do not contribute in size of an object. So 'i' is not considered in size of Test. 
+      Also, all functions (static and non-static both) do not contribute in size.
+
+### (2) ###
+class Base1 {  Base1() }
+class Base2 {  Base2() }
+
+class Derived: public Base1, public Base{ }
+
+----> Base1's constructor called ---> Base2's constructor called ---> Derived's constructor called .  In case of Multiple Inheritance, 
+      constructors of base classes are always called in derivation order from -> left to right  
+      Destructors are called in reverse order. 
