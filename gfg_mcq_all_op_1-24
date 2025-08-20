@@ -22,3 +22,65 @@ class Derived: public Base1, public Base{ }
 ----> Base1's constructor called ---> Base2's constructor called ---> Derived's constructor called .  In case of Multiple Inheritance, 
       constructors of base classes are always called in derivation order from -> left to right  
       Destructors are called in reverse order. 
+
+
+########### set 2 ###########
+### (3_2.1) ###
+class A {
+      public:
+          A(int ii = 0): i(ii){}
+
+          void show() {}
+      
+      private:
+          int i;
+      };
+
+class B {
+    public:
+        B(int xx): x(xx){}
+        
+        operator A() const { return A(x); }
+    
+    private:
+        int x;
+    };
+
+void g(A a) { a.show(); }
+
+    B b(10);        -> B(int xx): x(xx){}
+    g(b);           -> g(A a) -> operator A() const { return A(x); }
+    g(20);          -> A(int ii = 0): i(ii){}
+
+
+---> Since there is a Conversion constructor in class A, integer value can be assigned to objects of class A and function call g(20) works. 
+     Also, there is a conversion operator overloaded in class B, so we can call g() with objects of class B. 
+
+
+### (3_2.2) ###
+//// exmp 1 witout virtual ////
+
+class base { 
+    int arr[10];     
+}; 
+class b1: public base { }; 
+
+class b2: public base { }; 
+
+class derived: public b1, public b2 {}; 
+
+sizeof(derived); ------------------> 80 (If integer takes 4 bytes)
+
+//// exmp 1 with virtual ////
+
+class b1 : virtual public base {};
+
+class b2 : virtual public base {};
+
+sizeof(derived); ------------------> 56 (16 extra bytes are for bookkeeping information stored by the compiler.)
+
+---> b1 and b2 both inherit from class base, two copies of class base are there in class derived. 
+     This kind of inheritance without virtual causes wastage of space and ambiguities. 
+     virtual base classes are used to save space and avoid ambiguities in such cases.
+
+### (3_2.2) ###
