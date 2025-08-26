@@ -290,7 +290,7 @@ How to fix the ambiguity
     explicit operator int() { return x; }
   
   Then it won’t be used implicitly, only with a cast.
-### (14_7.2) ###
+### (15_7.2) ###
 class X {
   private:
     static const int a = 76;
@@ -300,6 +300,49 @@ class X {
 
 cout <<X::getA()<<endl;
 ---> The program compiles and prints 76 Generally, it is not allowed to initialize data members in C++ class declaration, but static const integral members are treated differently and can be initialized with declaration. 
+########### set 8 ###########
+
+### (16_8.1) ###
+class Test1 
+{ 
+  void show() {  } 
+};
+
+class Test2
+{
+    virtual void show() {  }
+};
+
+
+cout<<sizeof(Test1)<<endl;
+cout<<sizeof(Test2)<<endl;
+
+
+---> There is only one difference between Test1 and Test2. show() is non-virtual in Test1, but virtual in Test2. 
+     When we make a function virtual, compiler adds an extra pointer vptr to objects of the class. 
+     Compiler does this to achieve run time polymorphism (See chapter 15 of Thinking in C++ book for more details). 
+     The extra pointer vptr adds to the size of objects, that is why we get 16 as size of Test2. 
+
+### (17_8.2) ###
+class P
+{
+public:
+    virtual void show() = 0;
+};
+
+class Q : public P { 
+   int x;
+};
+
+Q q;
+
+
+---> Compiler Error We get the error because we can't create objects of abstract classes. P is an abstract class as it has a pure virtual method. 
+     Class Q also becomes abstract because it is derived from P and it doesn't implement show(). 
+
+
+
+
 
 
 
