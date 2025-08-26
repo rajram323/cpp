@@ -339,12 +339,54 @@ Q q;
 
 ---> Compiler Error We get the error because we can't create objects of abstract classes. P is an abstract class as it has a pure virtual method. 
      Class Q also becomes abstract because it is derived from P and it doesn't implement show(). 
+########### set 9 ###########
+### (18_9.1) ###
 
+template <class S, class T> class Pair
+{
+private:
+    S x;
+    T y;
+};
 
+template <class S> class Element
+{
+private:
+    S x;
+};
 
+int main ()
+{
+    Pair <Element<int>, Element<char>> p;
+  //  Pair <Element<int>, Element<char> > p;
+    return 0;
+}
 
+---> When we use nested templates in our program, we must put a space between two closing angular brackets, otherwise it conflicts with operator >>. 
 
+### (19_9.2) ###
+class Test 
+{
+private:
+    static int count;
+public:
+    static Test& fun();         // Test& fun(); // fun() is non-static now
+};
 
+int Test::count = 0;
+
+Test& Test::fun() 
+{
+    Test::count++;
+    cout<<Test::count<<" ";
+    return *this;
+}
+
+    Test t;
+    t.fun().fun().fun().fun();
+---> this pointer is not available to static member methods in C++, as static methods can be called using class name also. 
+     Similarly in Java, static member methods cannot access this and super (super is for base or parent class).
+     If we make fun() non-static in the above program, then the program works fine. 
 
 
 
