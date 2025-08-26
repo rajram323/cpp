@@ -252,6 +252,72 @@ public:
     cout << t1.getT() << endl;
 ---> Compiler Error Since t is a reference in Test, it must be initialized using Initializer List. Following is the modified program. It works and prints "20 30".
 
+########### set 7 ###########
+### (14_7.1) ###
+class Test1 { };
+
+class Test2 {
+public:
+    operator Test1() { return t1; }
+    operator int() { return x; }
+};
+
+void fun ( int x)  { };
+void fun ( Test1 t ) { };
+
+from main -
+Test2 t;
+fun(t);
+---> The compiler sees:
+     t is a Test2.
+     But fun is overloaded for int and Test1.
+     Test2 can be implicitly converted to both int and Test1.
+
+---> Compiler Error There are two conversion operators defined in the Test2 class. 
+     So Test2 objects can automatically be converted to both int and Test1. 
+     Therefore, the function call fun(t) is ambiguous as there are two functions void fun(int ) and void fun(Test1 ), 
+     compiler has no way to decide which function to call. In general, conversion operators must be overloaded carefully as they may lead to ambiguity. 
+
+How to fix the ambiguity
+1. Explicit cast when calling:
+   
+    fun((int)t);     // calls fun(int)
+    fun((Test1)t);   // calls fun(Test1)
+
+2. Remove one conversion operator (if not needed).
+3. Make conversion explicit (C++11+):
+    
+    explicit operator int() { return x; }
+  
+  Then it won’t be used implicitly, only with a cast.
+### (14_7.2) ###
+class X {
+  private:
+    static const int a = 76;
+  public:
+    static int getA() { return a; }
+};
+
+cout <<X::getA()<<endl;
+---> The program compiles and prints 76 Generally, it is not allowed to initialize data members in C++ class declaration, but static const integral members are treated differently and can be initialized with declaration. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
