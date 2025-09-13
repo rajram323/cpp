@@ -1,0 +1,5 @@
+std::vector reserve Is vERY iMPORTANT
+
+vector<int> v;
+
+v.reserve(1000000000);
